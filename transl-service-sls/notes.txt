@@ -1,0 +1,1 @@
+sls deploy -s dev --region eu-central-1
