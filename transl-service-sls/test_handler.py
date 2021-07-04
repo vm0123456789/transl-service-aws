@@ -1,7 +1,8 @@
 import pytest
-from handler import detect_language
+from handler import detect_language, translate_message
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize("test_input, expected", [
     ('This text is written in English', 'en'),
     ('Этот текст написан mostly по-русски', 'ru'),
@@ -10,3 +11,12 @@ from handler import detect_language
 ])
 def test_detect_language(test_input, expected):
     assert detect_language(test_input) == expected
+
+
+@pytest.mark.skip
+@pytest.mark.parametrize("test_input, source_lang, target_lang, expected", [
+    ('day', 'en', 'ru', 'день'),
+    ('słońce', 'pl', 'en', 'sun')
+])
+def test_translate_message(test_input, source_lang, target_lang, expected):
+    assert translate_message(test_input, source_lang, target_lang) == expected

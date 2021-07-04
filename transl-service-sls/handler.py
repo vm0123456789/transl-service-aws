@@ -16,7 +16,10 @@ def detect_language(msg):
 
 
 def translate_message(msg, source_lang, target_lang):
-    pass
+    transl = boto3.client('translate')
+    res = transl.translate_text(
+        Text=msg, SourceLanguageCode=source_lang, TargetLanguageCode=target_lang)
+    return res['TranslatedText']
 
 
 def handler(event, context):
@@ -24,7 +27,10 @@ def handler(event, context):
     msg = body["message"]
     target_lang = body["target_language"]
 
+    # use Amazon Comprehend to detect dominant language of the message
     source_lang = detect_language(msg)
+
+    # use Amazon Translate to translate the message into target language
     tranlated_msg = translate_message(msg, source_lang, target_lang)
 
     body = {
