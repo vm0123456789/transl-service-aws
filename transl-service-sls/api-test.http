@@ -1,0 +1,11 @@
+# This test requests can be executed using REST Client extension for VSCode
+
+POST https://qxjfzvn520.execute-api.eu-central-1.amazonaws.com/translate HTTP/1.1
+content-type: application/json
+
+{
+    "message": "Тестовое сообщение",
+    "target_language": "en"
+}
+
+###
