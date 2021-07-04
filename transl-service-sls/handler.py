@@ -35,8 +35,9 @@ def handler(event, context):
         - statusCode: 200
         - body: "{'translated_message': <translated-message>}"
     """
-    msg = event['body']['message']
-    target_lang = event['body']['target_language']
+    body = json.loads(event["body"])
+    msg = body['message']
+    target_lang = body['target_language']
 
     # use Amazon Comprehend to detect dominant language of the message
     source_lang = detect_language(msg)
