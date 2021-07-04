@@ -23,9 +23,20 @@ def translate_message(msg, source_lang, target_lang):
 
 
 def handler(event, context):
-    body = json.loads(event["body"])
-    msg = body["message"]
-    target_lang = body["target_language"]
+    """handler translates message into target language
+
+    Args:
+        event (dict): API Gateway event object that contains 'body' with the following keys:
+        - message: the message which should be translated,
+        - target_language: the language the message should be translated into
+
+    Returns:
+        response (dict): response object that contains the following keys:
+        - statusCode: 200
+        - body: "{'translated_message': <translated-message>}"
+    """
+    msg = event['body']['message']
+    target_lang = event['body']['target_language']
 
     # use Amazon Comprehend to detect dominant language of the message
     source_lang = detect_language(msg)
@@ -34,12 +45,12 @@ def handler(event, context):
     tranlated_msg = translate_message(msg, source_lang, target_lang)
 
     body = {
-        "translated_message": tranlated_msg
+        'translated_message': tranlated_msg
     }
 
     response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
+        'statusCode': 200,
+        'body': json.dumps(body)
     }
 
     return response

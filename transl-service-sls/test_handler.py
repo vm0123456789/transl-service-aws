@@ -1,5 +1,6 @@
+import json
 import pytest
-from handler import detect_language, translate_message
+from handler import detect_language, translate_message, handler
 
 
 @pytest.mark.skip
@@ -20,3 +21,15 @@ def test_detect_language(test_input, expected):
 ])
 def test_translate_message(test_input, source_lang, target_lang, expected):
     assert translate_message(test_input, source_lang, target_lang) == expected
+
+
+@pytest.mark.skip
+@pytest.mark.parametrize("event, expected", [
+    ({'body': {'message': 'day', 'target_language': 'ru'}}, 'день'),
+    ({'body': {'message': 'słońce', 'target_language': 'en'}}, 'sun'),
+])
+def test_handler(event, expected):
+    response = handler(event, 'context')
+    assert response['statusCode'] == 200
+    result = json.loads(response['body'])
+    assert result['translated_message'] == expected
