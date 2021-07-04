@@ -5,7 +5,17 @@ provider:
   name: aws
   runtime: python3.8
   lambdaHashingVersion: 20201221
+  region: eu-central-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action: ["translate:TranslateText"]
+      Resource: "*"
+    - Effect: Allow
+      Action: ["comprehend:DetectDominantLanguage"]
+      Resource: "*"
 
 functions:
-  hello:
+  handler:
     handler: handler.handler
+    events:
+      - httpApi: "POST /translate"
